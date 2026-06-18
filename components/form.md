@@ -142,6 +142,78 @@ if (accordionTrigger && accordionBody) {
 
 ---
 
+## F2-B：アコーディオンCTA（画像トリガー型）
+
+### ① 概要
+トリガーがテキストボタンではなく**画像**の場合のアコーディオンCTA。「閉じた状態の画像」をクリックすると「開いた状態の画像＋フォームエリア」が展開される。画像にCTAデザインが焼き込まれている案件で使用する（ハリウェル型）。
+
+### ② 確認事項
+
+| 項目 | 確認内容 | 例 |
+|------|---------|-----|
+| 閉じた状態の画像 | トリガーとなる画像ファイル名 | `images/cta_accordion-close.png` |
+| 開いた状態の画像 | 展開後に表示する画像ファイル名 | `images/cta_accordion-open.png` |
+| 初期状態 | 開いた状態 or 閉じた状態 | 閉じた状態（デフォルト）|
+| JS実装 | jQuery使用 or Vanilla JS | jQueryがある場合はjQuery版を使用 |
+
+### ③ テンプレート
+
+#### HTML
+
+```html
+<div class="cta-accordion">
+  <!-- トリガー：クリックで開閉 -->
+  <div class="cta-head">
+    <img src="images/cta_accordion-close.png" alt="申し込みフォームを開く">
+  </div>
+  <!-- 展開エリア -->
+  <div class="cta-body">
+    <img src="images/cta_accordion-open.png" alt="">
+    <!-- フォームが画像に焼き込まれている場合はここに外部リンクボタンを配置 -->
+    <!-- フォームをHTMLで実装する場合はF1のform-blockをここに挿入 -->
+  </div>
+</div>
+```
+
+#### CSS
+
+```css
+/* Accordion CTA（画像トリガー型）*/
+.cta-accordion { max-width: var(--max-width); margin: 0 auto; }
+.cta-head { cursor: pointer; }
+.cta-head img { width: 100%; display: block; }
+.cta-body { display: none; } /* jQueryのslideToggleで制御 */
+.cta-body img { width: 100%; display: block; }
+```
+
+#### JavaScript（jQuery版）
+
+```javascript
+// Accordion CTA — jQuery版（jQueryが読み込まれている場合）
+$(function() {
+  $(".cta-head").on("click", function() {
+    $(this).next(".cta-body").slideToggle();
+    $(this).toggleClass("active");
+  });
+});
+```
+
+#### JavaScript（Vanilla JS版）
+
+```javascript
+// Accordion CTA — Vanilla JS版
+document.querySelectorAll('.cta-head').forEach((head) => {
+  head.addEventListener('click', () => {
+    const body = head.nextElementSibling;
+    const isOpen = body.style.display === 'block';
+    body.style.display = isOpen ? 'none' : 'block';
+    head.classList.toggle('active', !isOpen);
+  });
+});
+```
+
+---
+
 ## F3：ステップフォーム（2〜3ステップ）
 
 ### ① 概要

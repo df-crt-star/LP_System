@@ -212,6 +212,89 @@ document.querySelectorAll('[data-ba-slider]').forEach((slider) => {
   window.addEventListener('mousemove', (e) => { if (isDragging) updateSlider(e.clientX); });
   window.addEventListener('touchmove', (e) => { if (isDragging) updateSlider(e.touches[0].clientX); }, { passive: true });
   window.addEventListener('mouseup', () => { isDragging = false; });
-  window.addEventListener('touchend', () => { isDragging = false; });
+    window.addEventListener('touchend', () => { isDragging = false; });
 });
 ```
+
+> **jQueryプロジェクトの場合：** `jquery.twentytwenty.js` + `jquery.event.move.js` を使用することも可。
+> - HTML: `<div id="before-after"><img class="twentytwenty-before" src="before.jpg" alt="Before"><img class="twentytwenty-after" src="after.jpg" alt="After"></div>`
+> - CSS: `twentytwenty.css` を読み込む
+> - JS: `$(function(){ $("#before-after").twentytwenty(); });`
+> - 注意：jQuery版はVanilla JS版と**同時に使用しない**こと
+
+---
+
+## V3：医師・専門家コメント型
+
+### ① 概要
+医師・機能性表示食品責任者等の専門家の言葉を引用形式で表示するレイアウト。顔写真・資格・コメントをセットにする（カテキン型）。
+
+### ② 確認事項
+
+| 項目 | 確認内容 | 例 |
+|------|---------|-----|
+| 件数 | 何件表示するか | 1件 or 2件 |
+| 顔写真 | 画像あり or 画像に焼き込み | あり（`images/doctor-01.webp`）|
+| 資格・花形 | 資格名・所属の表示有無 | あり（医師・栄養士等）|
+| コメント | テキスト or 画像焼き込み | テキスト |
+| バックグラウンド | 背景色 or 画像 | 単色（`#f5f5f5`）|
+
+### ③ テンプレート
+
+```html
+<section id="doctor" class="section-doctor">
+  <div class="inner-container">
+    <h2 class="section-title">「ここにセクションタイトル」</h2>
+    <div class="doctor-card fade-in">
+      <div class="doctor-card-header">
+        <img src="images/doctor-01.webp" alt="《名前》先生" width="120" height="120" loading="lazy" class="doctor-card-photo">
+        <div class="doctor-card-meta">
+          <p class="doctor-card-name">《名前》</p>
+          <p class="doctor-card-title">《資格・所属》</p>
+        </div>
+      </div>
+      <blockquote class="doctor-card-comment">
+        <p>《コメント》</p>
+      </blockquote>
+    </div>
+  </div>
+</section>
+```
+
+```css
+/* Doctor Comment */
+.section-doctor { padding: 60px 0; background-color: #f5f5f5; }
+.doctor-card {
+  max-width: 700px;
+  margin: 40px auto 0;
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 32px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+.doctor-card-header {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+.doctor-card-photo {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+.doctor-card-name { font-size: 1.8rem; font-weight: 700; }
+.doctor-card-title { font-size: 1.3rem; color: #888; margin-top: 6px; }
+.doctor-card-comment {
+  border-left: 4px solid var(--color-accent);
+  padding-left: 20px;
+  margin: 0;
+  font-size: 1.5rem;
+  line-height: 2;
+  color: #444;
+}
+```
+
+

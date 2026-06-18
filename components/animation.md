@@ -388,6 +388,72 @@ STEP 4：Layer 1への登録提案
 
 ---
 
+## GIF実装パターン（画像重ね層型）
+
+### 概要
+GIFアニメーション画像を**背景画像に重ねて配置**するパターン。画像に焼き込みできない動きのある要素（矢印・バッジ・アイコン等）をGIFで実装する際に使用する（減肥茨型）。
+
+### 確認事項
+
+| 項目 | 確認内容 | 例 |
+|------|---------|-----|
+| GIFファイル名 | GIF画像のパス | `images/animation-01.gif` |
+| 配置位置 | 背景画像に対する相対位置 | カンプ参照（`top`, `left` 等）|
+| サイズ | GIFの表示サイズ | `width: 80px` 等 |
+| 重ねる数 | 何枚のGIFを重ねるか | 1枚〜複数 |
+
+### テンプレート
+
+```html
+<!-- GIF：背景画像に重ねる場合（減肥茨型）-->
+<div class="gif-wrapper">
+  <img src="images/section-bg.webp" alt="">
+  <!-- GIF 1枚目 -->
+  <div class="gif-overlay gif-overlay-1">
+    <img src="images/animation-01.gif" alt="">
+  </div>
+  <!-- GIF 2枚目（複数ある場合）-->
+  <div class="gif-overlay gif-overlay-2">
+    <img src="images/animation-02.gif" alt="">
+  </div>
+</div>
+```
+
+```css
+/* GIF重ね層 */
+.gif-wrapper {
+  position: relative; /* 親要素に position:relative が必須 */
+}
+.gif-wrapper > img {
+  width: 100%;
+  display: block;
+}
+.gif-overlay {
+  position: absolute;
+  /* 座標はカンプを参照して設定する */
+}
+.gif-overlay img {
+  width: 100%; /* 幅は親要素の幅に対する割合で指定 */
+  display: block;
+}
+
+/* 例：カンプに合わせた座標設定 */
+.gif-overlay-1 {
+  top: 10%;
+  left: 5%;
+  width: 20%;
+}
+.gif-overlay-2 {
+  top: 30%;
+  right: 5%;
+  width: 15%;
+}
+```
+
+> **注意：** GIFの配置座標（`top`/`left`/`right`/`bottom`/`width`）は必ずカンプ（`design/`フォルダの画像）を参照して設定すること。
+
+---
+
 ## 禁止事項
 
 | 禁止事項 | 理由 |
